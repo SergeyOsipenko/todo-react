@@ -31,7 +31,6 @@ function Footer(props) {
                 >Clear completed</button> :
                 null
             }
-            
         </div>
     );
 }

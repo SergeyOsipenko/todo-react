@@ -11,7 +11,9 @@ function Board() {
 
     return (
         <div className="Board">
-            <DoingsEnter/>
+            <DoingsEnter
+                doings={doings}
+                hasUnCompletedElements={doings.filter(doing => !doing.isCompleted).length > 0}/>
             <ul className="todo-list">
                 {
                     {

@@ -1,16 +1,15 @@
 import React from 'react';
 import './DoingsEnter.css';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {addRow, toggleRows} from '../actions'
 
-function DoingsEnter() {
-    const doings = useSelector(state => state.doings);
+function DoingsEnter(props) {
     const dispatch = useDispatch();
 
     return (
         <div className="header">
-            {doings.length > 0 ? [
-                <input type="checkbox" key="toggleAll" id="toggleAll" onChange={(event) => dispatch(toggleRows(event.target.checked))}/>,
+            {props.doings.length > 0 ? [
+                <input type="checkbox" key="toggleAll" id="toggleAll" checked={!props.hasUnCompletedElements} onChange={(event) => dispatch(toggleRows(event.target.checked))}/>,
                 <label htmlFor="toggleAll" key="toggleAll-label" className="toggle-all"></label>
              ] : null
             }
