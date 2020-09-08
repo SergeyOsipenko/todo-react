@@ -1,33 +1,31 @@
 import React from 'react';
-import './Footer.css';
-import {useDispatch, useSelector} from 'react-redux';
-import {setFilter, deleteCompletedRows} from '../actions'
+import './Footer.scss';
 
 function Footer(props) {
-    const dispatch = useDispatch();
-    const filteredBy = useSelector(state => state.filterBy);
-
     return (
         <div className="footer">
             <span className="items-left">{`${props.itemsNumber} items left`}</span>
             <div className="filter">
                 <div
-                    className={`filter-by ${filteredBy === 'All' ? 'selected' : ''}`}
-                    onClick={() => dispatch(setFilter('All'))}
+                    className={`filter-by ${props.filterBy === 'All' ? 'selected' : ''}`}
+                    onClick={props.onSetFilter}
+                    data-action='All'
                 >All</div>
                 <div
-                    className={`filter-by ${filteredBy === 'Active' ? 'selected' : ''}`}
-                    onClick={() => dispatch(setFilter('Active'))}
+                    className={`filter-by ${props.filterBy === 'Active' ? 'selected' : ''}`}
+                    onClick={props.onSetFilter}
+                    data-action='Active'
                 >Active</div>
                 <div
-                    className={`filter-by ${filteredBy === 'Completed' ? 'selected' : ''}`}
-                    onClick={() => dispatch(setFilter('Completed'))}
+                    className={`filter-by ${props.filterBy === 'Completed' ? 'selected' : ''}`}
+                    onClick={props.onSetFilter}
+                    data-action='Completed'
                 >Completed</div>
             </div>
             {props.hasCompletedElements ?
                 <button 
                     className="clear-completed"
-                    onClick={() => dispatch(deleteCompletedRows())}
+                    onClick={props.onDeleteCompletedRows}
                 >Clear completed</button> :
                 null
             }

@@ -1,32 +1,83 @@
-import React from 'react';
-import './Board.css';
+import React, { useState, useCallback } from 'react';
+import './Board.scss';
 import DoingsEnter from '../DoingsEnter/DoingsEnter';
 import Doing from '../Doing/Doing';
 import Footer from '../Footer/Footer';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import {deleteCompletedRows, toggleRows, addRow, deleteRow, updateRowStatus} from '../actions'
 
 function Board() {
+    const dispatch = useDispatch();
     const doings = useSelector(state => state.doings);
-    const filterBy = useSelector(state => state.filterBy);
+
+    const [filterBy, setFilterBy] = useState("All");
+    const filterDoings = () => {
+        return {
+            All: doings,
+            Completed: doings.filter(doing => doing.isCompleted),
+            Active: doings.filter(doing => !doing.isCompleted)
+        }[filterBy];
+    };
+    const handleSetFilterBy = useCallback(
+        (event) => {
+            event.persist();
+            setFilterBy(event.target.dataset.action);
+        },
+        []
+    );
+
+    const handleDeleteCompletedRows = useCallback(
+        () => { dispatch(deleteCompletedRows()) },
+        [dispatch]
+    );
+
+    const handleToggleRows = useCallback(
+        (event) => { dispatch(toggleRows(event.target.checked)) },
+        [dispatch]
+    );
+    const handleAddRow = useCallback(
+        (event) => {
+            if(event.key === "Enter" && event.target.value)
+                dispatch(addRow({key: event.key, element: event.target}))
+        },
+        [dispatch]
+    );
+
+    const handleDeleteRow = useCallback(
+        (event) => {
+            event.persist()
+            dispatch(deleteRow(event.target.dataset.index));
+        },
+        [dispatch]
+    );
+
+    const handleUpdateRowStatus = useCallback(
+        (event) => {
+            event.persist();
+            dispatch(updateRowStatus(event.target.dataset.index));
+        },
+        [dispatch]
+    );
 
     return (
         <div className="Board">
             <DoingsEnter
                 doings={doings}
-                hasUnCompletedElements={doings.filter(doing => !doing.isCompleted).length > 0}/>
+                hasUnCompletedElements={doings.filter(doing => !doing.isCompleted).length > 0}
+                onToggleRows={handleToggleRows}
+                onAddRow={handleAddRow}
+            />
             <ul className="todo-list">
                 {
-                    {
-                        All: doings,
-                        Completed: doings.filter(doing => doing.isCompleted),
-                        Active: doings.filter(doing => !doing.isCompleted)
-                    }[filterBy].map((doing, index) => {
+                    filterDoings().map((doing, index) => {
                         return (
                             <li key={index}>
                                 <Doing
                                     value={doing.value}
                                     status={doing.isCompleted}
-                                    index ={index}
+                                    index={index}
+                                    onDeleteRow={handleDeleteRow}
+                                    onUpdateRowStatus={handleUpdateRowStatus}
                                 />
                             </li>
                         );
@@ -37,6 +88,9 @@ function Board() {
                 <Footer
                     itemsNumber={doings.filter(doing => !doing.isCompleted).length}
                     hasCompletedElements={doings.filter(doing => doing.isCompleted).length > 0}
+                    filterBy={filterBy}
+                    onSetFilter={handleSetFilterBy}
+                    onDeleteCompletedRows={handleDeleteCompletedRows}
                 />
             ) : ("")}
         </div>
