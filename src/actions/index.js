@@ -1,4 +1,4 @@
-import {ADD_ROW, DELETE_ROW, UPDATE_ROW_STATUS, DELETE_COMPLETED_ROWS, TOGGLE_ROWS_STATUS} from '../Utils/Constants'
+import {ADD_ROW, DELETE_ROW, UPDATE_ROW_STATUS, DELETE_COMPLETED_ROWS, TOGGLE_ROWS_STATUS, SET_SELECTED_ROW} from '../Utils/Constants'
 
 export const addRow = (event) => {
     return {
@@ -23,13 +23,20 @@ export const updateRowStatus = (index) => {
 
 export const toggleRows = (value) => {
     return {
-        type: DELETE_COMPLETED_ROWS,
+        type: TOGGLE_ROWS_STATUS,
         payload: value
     }
 }
 
 export const deleteCompletedRows = () => {
     return {
-        type: TOGGLE_ROWS_STATUS
+        type: DELETE_COMPLETED_ROWS
+    }
+}
+
+export const selectRow = (value) => {
+    return {
+        type: SET_SELECTED_ROW,
+        payload: value
     }
 }

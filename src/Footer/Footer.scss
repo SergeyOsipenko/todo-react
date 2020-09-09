@@ -54,9 +54,13 @@
 }
 
 .clear-completed{
+    cursor: pointer;
+
     position: absolute;
     right: 20px;
-
+    
+    height: 15px;
+    box-sizing: border-box;
     border: none;
     outline: 0 !important;
     padding: 0;
@@ -66,5 +70,5 @@
 }
 
 .clear-completed:hover{
-    border-bottom: 1px solid #777;
+    border-bottom: 1px solid rgba(175, 47, 47, 0.3);
 }

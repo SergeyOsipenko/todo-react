@@ -1,30 +1,35 @@
-import {ADD_ROW, DELETE_ROW, UPDATE_ROW_STATUS, DELETE_COMPLETED_ROWS, TOGGLE_ROWS_STATUS} from '../Utils/Constants'
+import {ADD_ROW, DELETE_ROW, UPDATE_ROW_STATUS, DELETE_COMPLETED_ROWS, TOGGLE_ROWS_STATUS, SET_SELECTED_ROW} from '../Utils/Constants'
 
-const doingReducer = (state = [{value: 'todo', description: "", isCompleted: false}], action) => {
-    let doings = state.slice();
+const doingReducer = (state = JSON.parse(localStorage.getItem('todo-react')) || {selected: 0, doings: []}, action) => {
+    let copy = JSON.parse(JSON.stringify(state));
     switch(action.type){
         case ADD_ROW :
-            doings = doings.concat({value: action.payload.element.value, description: "", isCompleted: false});
+            copy.doings = copy.doings.concat({value: action.payload.element.value, description: `Simple description of ${action.payload.element.value}`, isCompleted: false});
             action.payload.element.value = "";
-            return doings;
+            return copy;
         
         case DELETE_ROW:
-            doings.splice(action.payload, 1);
-            return doings;
+            copy.doings.splice(action.payload, 1);
+            return copy;
         
         case UPDATE_ROW_STATUS:
-            doings[action.payload].isCompleted = !doings[action.payload].isCompleted;
-            return doings;
+            copy.doings[action.payload].isCompleted = !copy.doings[action.payload].isCompleted;
+            return copy;
         
         case DELETE_COMPLETED_ROWS:
-            return doings = doings.filter(s => !s.isCompleted);
+            copy.doings = copy.doings.filter(d => !d.isCompleted);
+            return copy;
         
         case TOGGLE_ROWS_STATUS:
-            doings.forEach(s => s.isCompleted = action.payload);
-            return doings;
-    
+            copy.doings.forEach(s => s.isCompleted = action.payload);
+            return copy;
+
+        case SET_SELECTED_ROW:
+            copy.selected = action.payload;
+            return copy;
+
         default:
-            return doings;
+            return copy;
     }
 }
 

@@ -4,11 +4,11 @@ import DoingsEnter from '../DoingsEnter/DoingsEnter';
 import Doing from '../Doing/Doing';
 import Footer from '../Footer/Footer';
 import {useSelector, useDispatch} from 'react-redux';
-import {deleteCompletedRows, toggleRows, addRow, deleteRow, updateRowStatus} from '../actions'
+import {deleteCompletedRows, toggleRows, addRow, deleteRow, updateRowStatus, selectRow} from '../actions'
 
 function Board() {
     const dispatch = useDispatch();
-    const doings = useSelector(state => state.doings);
+    const doings = useSelector(state => state.todo.doings);
 
     const [filterBy, setFilterBy] = useState("All");
     const filterDoings = () => {
@@ -59,6 +59,14 @@ function Board() {
         [dispatch]
     );
 
+    const handleSelectRow = useCallback(
+        (event) => {
+            event.persist();
+            dispatch(selectRow(event.target.dataset.index));
+        },
+        [dispatch]
+    )
+
     return (
         <div className="Board">
             <DoingsEnter
@@ -71,13 +79,14 @@ function Board() {
                 {
                     filterDoings().map((doing, index) => {
                         return (
-                            <li key={index}>
+                            <li key={`${doing.value}_${index}`}>
                                 <Doing
                                     value={doing.value}
                                     status={doing.isCompleted}
                                     index={index}
                                     onDeleteRow={handleDeleteRow}
                                     onUpdateRowStatus={handleUpdateRowStatus}
+                                    onSelectRow={handleSelectRow}
                                 />
                             </li>
                         );
