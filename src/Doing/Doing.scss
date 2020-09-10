@@ -72,7 +72,7 @@
         transition: all 0.5s ease-out;
 
         &-completed{
-            text-decoration: line-through;
+            text-decoration: line-through !important;
             opacity: .5;
         }
     }
