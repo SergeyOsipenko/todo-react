@@ -4,15 +4,15 @@ import Loader from 'react-loader-spinner'
 import './App.scss';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 
-const Board = lazy(() => import('./Board/Board'));
-const DoingCard = lazy(() => import('./DoingCard/DoingCard'));
+const Board = lazy(() => import('../Board/Board'));
+const DoingCard = lazy(() => import('../DoingCard/DoingCard'));
 
 function App() {
 
 	return (
-		<div className="App">
-			<div className="App-content">
-				<h1 className="todo-label">todos-react</h1>
+		<div className="app">
+			<div className="app-content">
+				<h1 className="app-content__todo-label">todos-react</h1>
 				<Router>
 					<Suspense fallback={<Loader
 						type="ThreeDots"

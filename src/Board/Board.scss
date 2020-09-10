@@ -1,9 +1,9 @@
-.Board{
+.board{
 	width: 550px;
 	background-color: #ffffff;
 	box-shadow: inset 0 -2px 1px rgba(0,0,0,0.03);
 
-	.todo-list{
+	&__todo-list{
 		max-height: 550px;
 		overflow-y: auto;
 		overflow-x: none;

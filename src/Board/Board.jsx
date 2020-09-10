@@ -68,14 +68,14 @@ function Board() {
     )
 
     return (
-        <div className="Board">
+        <div className="board">
             <DoingsEnter
                 doings={doings}
                 hasUnCompletedElements={doings.filter(doing => !doing.isCompleted).length > 0}
                 onToggleRows={handleToggleRows}
                 onAddRow={handleAddRow}
             />
-            <ul className="todo-list">
+            <ul className="board__todo-list">
                 {
                     filterDoings().map((doing, index) => {
                         return (
