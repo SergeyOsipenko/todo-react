@@ -1,8 +1,7 @@
 import React, {Suspense, lazy} from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import Loader from 'react-loader-spinner'
+import Loader from 'react-loader-spinner';
 import './App.scss';
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 
 const Board = lazy(() => import('../Board/Board'));
 const DoingCard = lazy(() => import('../DoingCard/DoingCard'));

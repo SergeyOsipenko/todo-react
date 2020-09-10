@@ -83,6 +83,7 @@ function Board() {
                                 <Doing
                                     value={doing.value}
                                     status={doing.isCompleted}
+                                    description={doing.description}
                                     index={index}
                                     onDeleteRow={handleDeleteRow}
                                     onUpdateRowStatus={handleUpdateRowStatus}
