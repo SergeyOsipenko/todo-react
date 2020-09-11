@@ -1,4 +1,4 @@
-import {ADD_ROW, DELETE_ROW, UPDATE_ROW_STATUS, DELETE_COMPLETED_ROWS, TOGGLE_ROWS_STATUS, SET_SELECTED_ROW} from '../Utils/Constants'
+import {ADD_ROW, DELETE_ROW, UPDATE_ROW_STATUS, UPDATE_ROW_DESCRIPTION, DELETE_COMPLETED_ROWS, TOGGLE_ROWS_STATUS, SET_SELECTED_ROW } from '../Utils/Constants'
 
 const doingReducer = (state = JSON.parse(localStorage.getItem('todo-react')) || {selected: 0, doings: []}, action) => {
     let copy = JSON.parse(JSON.stringify(state));
@@ -14,6 +14,10 @@ const doingReducer = (state = JSON.parse(localStorage.getItem('todo-react')) || 
         
         case UPDATE_ROW_STATUS:
             copy.doings[action.payload].isCompleted = !copy.doings[action.payload].isCompleted;
+            return copy;
+
+        case UPDATE_ROW_DESCRIPTION:
+            copy.doings[action.payload.index].description = action.payload.value;
             return copy;
         
         case DELETE_COMPLETED_ROWS:
