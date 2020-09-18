@@ -21,8 +21,8 @@ function App() {
 					}>
 						<Switch>
 							<Redirect exact from="/" to="/Board" />
-							<Route path="/Board" component={Board} />
-							<Route exact path="/Doing" component={DoingCard} />
+							<Route exact path="/Board" component={Board} />
+							<Route exact path="/Doing/:id" component={DoingCard} />
 						</Switch>
 					</Suspense>
 				</Router>

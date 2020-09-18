@@ -1,49 +1,54 @@
-import {ADD_ROW, DELETE_ROW, UPDATE_ROW_STATUS, UPDATE_ROW_DESCRIPTION, DELETE_COMPLETED_ROWS, TOGGLE_ROWS_STATUS, SET_SELECTED_ROW} from '../Utils/Constants'
+import {ADD_ROW, DELETE_ROW, UPDATE_ROW_STATUS, UPDATE_ROW_DESCRIPTION, DELETE_COMPLETED_ROWS, TOGGLE_ROWS_STATUS} from '../Utils/Constants'
 
-export const addRow = (event) => {
+export const addRow = (value) => {
 	return {
-		type: ADD_ROW,
-		payload: event
+		localStorage: {
+			type: ADD_ROW,
+			payload: value
+		}
 	}
 }
 
 export const deleteRow = (index) => {
 	return {
-		type: DELETE_ROW,
-		payload: index
+		localStorage: {
+			type: DELETE_ROW,
+			payload: index
+		}
 	}
 }
 
-export const updateRowStatus = (index) => {
+export const updateRowStatus = (index, value) => {
 	return {
-		type: UPDATE_ROW_STATUS,
-		payload: index
+		localStorage: {
+			type: UPDATE_ROW_STATUS,
+			payload: { index, value }
+		}
 	}
 }
 
 export const updateRowDescription = (value) => {
 	return {
-		type: UPDATE_ROW_DESCRIPTION,
-		payload: value
+		localStorage: {
+			type: UPDATE_ROW_DESCRIPTION,
+			payload: value
+		}
 	}
 }
 
 export const toggleRows = (value) => {
 	return {
-		type: TOGGLE_ROWS_STATUS,
-		payload: value
+		localStorage: {
+			type: TOGGLE_ROWS_STATUS,
+			payload: value
+		}
 	}
 }
 
 export const deleteCompletedRows = () => {
 	return {
-		type: DELETE_COMPLETED_ROWS
-	}
-}
-
-export const selectRow = (value) => {
-	return {
-		type: SET_SELECTED_ROW,
-		payload: value
+		localStorage: {
+			type: DELETE_COMPLETED_ROWS
+		}
 	}
 }

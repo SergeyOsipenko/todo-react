@@ -1,39 +1,35 @@
-import {ADD_ROW, DELETE_ROW, UPDATE_ROW_STATUS, UPDATE_ROW_DESCRIPTION, DELETE_COMPLETED_ROWS, TOGGLE_ROWS_STATUS, SET_SELECTED_ROW } from '../Utils/Constants'
+import {ADD_ROW, DELETE_ROW, UPDATE_ROW_STATUS, UPDATE_ROW_DESCRIPTION, DELETE_COMPLETED_ROWS, TOGGLE_ROWS_STATUS } from '../Utils/Constants'
 
-const doingReducer = (state = JSON.parse(localStorage.getItem('todo-react')) || {selected: 0, doings: []}, action) => {
-    let copy = JSON.parse(JSON.stringify(state));
+const doingReducer = (state = [], action) => {
+    let doings = state.slice();
+
     switch(action.type){
         case ADD_ROW :
-            copy.doings = copy.doings.concat({value: action.payload.element.value, description: `Simple description of ${action.payload.element.value}`, isCompleted: false});
-            action.payload.element.value = "";
-            return copy;
+            doings = doings.concat({value: action.payload, description: `Simple description of ${action.payload}`, isCompleted: false});
+            return doings;
         
         case DELETE_ROW:
-            copy.doings.splice(action.payload, 1);
-            return copy;
+            doings.splice(action.payload, 1);
+            return doings;
         
         case UPDATE_ROW_STATUS:
-            copy.doings[action.payload].isCompleted = !copy.doings[action.payload].isCompleted;
-            return copy;
+            doings[action.payload.index].isCompleted = action.payload.value;
+            return doings;
 
         case UPDATE_ROW_DESCRIPTION:
-            copy.doings[action.payload.index].description = action.payload.value;
-            return copy;
+            doings[action.payload.index].description = action.payload.value;
+            return doings;
         
         case DELETE_COMPLETED_ROWS:
-            copy.doings = copy.doings.filter(d => !d.isCompleted);
-            return copy;
+            doings = doings.filter(d => !d.isCompleted);
+            return doings;
         
         case TOGGLE_ROWS_STATUS:
-            copy.doings.forEach(s => s.isCompleted = action.payload);
-            return copy;
-
-        case SET_SELECTED_ROW:
-            copy.selected = action.payload;
-            return copy;
+            doings.forEach(s => s.isCompleted = action.payload);
+            return doings;
 
         default:
-            return copy;
+            return doings;
     }
 }
 

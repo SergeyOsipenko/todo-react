@@ -17,15 +17,14 @@ function Doing(props) {
 			</label>
 			<Link
 				className={`doing__text ${props.status ? 'doing__text-completed' : ''}`}
-				to="/Doing"
+				to={`/Doing/${props.index}`}
 				data-tip={props.description}
-				data-index={props.index}
-				onClick={props.onSelectRow}
 			>{props.value}</Link>
 			<div className="doing__spacer"></div>
 			<button
 				className="doing__button-delete"
 				onClick={props.onDeleteRow}
+				data-index={props.index}
 			>x</button>
 			<ReactTooltip
 				delayShow={1000}
