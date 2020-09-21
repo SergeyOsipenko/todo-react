@@ -4,13 +4,14 @@ import DoingsEnter from '../DoingsEnter/DoingsEnter';
 import Doing from '../Doing/Doing';
 import Footer from '../Footer/Footer';
 import {useSelector, useDispatch} from 'react-redux';
-import {deleteCompletedRows, toggleRows, addRow, deleteRow, updateRowStatus} from '../actions'
+import {setLocalStorage} from '../actions'
 import { useHistory } from 'react-router-dom';
+import { ADD_ROW, DELETE_COMPLETED_ROWS, DELETE_ROW, TOGGLE_ROWS_STATUS, UPDATE_ROW_STATUS } from '../Utils/Constants';
 
 function Board() {
 	const dispatch = useDispatch();
 	const history = useHistory();
-	const doings = useSelector(state => state.doings);
+	const doings = useSelector(state => state.doings.data);
 	const [hasLetters, setHasLetters] = useState(false);
 
 	const [filterBy, setFilterBy] = useState("All");
@@ -31,19 +32,19 @@ function Board() {
 	);
 
 	const handleDeleteCompletedRows = useCallback(
-		() => { dispatch(deleteCompletedRows()) },
+		() => { dispatch(setLocalStorage(DELETE_COMPLETED_ROWS)) },
 		[dispatch]
 	);
 
 	const handleToggleRows = useCallback(
-		(event) => { dispatch(toggleRows(event.target.checked)) },
+		(event) => { dispatch(setLocalStorage(TOGGLE_ROWS_STATUS, event.target.checked)) },
 		[dispatch]
 	);
 	
 	const handleAddRow = useCallback(
 		(event) => {
 			if(event.key === "Enter" && event.target.value){
-				dispatch(addRow(event.target.value))
+				dispatch(setLocalStorage(ADD_ROW, event.target.value))
 				setHasLetters(false);
 				event.target.value = '';
 			}
@@ -53,7 +54,7 @@ function Board() {
 
 	const handelExtendedAddRow = useCallback(
 		(input) => {
-			dispatch(addRow(input.value));
+			dispatch(setLocalStorage(ADD_ROW, input.value));
 			history.push(`/Doing/${doings.length}`)
 		},
 		[dispatch, history, doings]
@@ -68,14 +69,14 @@ function Board() {
 
 	const handleDeleteRow = useCallback(
 		(event) => {
-			dispatch(deleteRow(event.target.dataset.index));
+			dispatch(setLocalStorage(DELETE_ROW, event.target.dataset.index));
 		},
 		[dispatch]
 	);
 
 	const handleUpdateRowStatus = useCallback(
 		(event) => {
-			dispatch(updateRowStatus(event.target.dataset.index, event.target.checked));
+			dispatch(setLocalStorage(UPDATE_ROW_STATUS, {index: event.target.dataset.index, value: event.target.checked}));
 		},
 		[dispatch]
 	);

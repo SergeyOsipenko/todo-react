@@ -1,35 +1,49 @@
-import {ADD_ROW, DELETE_ROW, UPDATE_ROW_STATUS, UPDATE_ROW_DESCRIPTION, DELETE_COMPLETED_ROWS, TOGGLE_ROWS_STATUS } from '../Utils/Constants'
+import { GET_LOCAL_STORAGE_FAILURE, GET_LOCAL_STORAGE_REQUEST, GET_LOCAL_STORAGE_SUCCESS, SET_LOCAL_STORAGE_FAILURE, SET_LOCAL_STORAGE_REQUEST, SET_LOCAL_STORAGE_SUCCESS } from '../Utils/Constants'
 
-const doingReducer = (state = [], action) => {
-    let doings = state.slice();
+const initialState = {
+    isLoading: false,
+    data: [],
+    error: ''
+}
 
+const doingReducer = (state = initialState, action) => {
     switch(action.type){
-        case ADD_ROW :
-            doings = doings.concat({value: action.payload, description: `Simple description of ${action.payload}`, isCompleted: false});
-            return doings;
-        
-        case DELETE_ROW:
-            doings.splice(action.payload, 1);
-            return doings;
-        
-        case UPDATE_ROW_STATUS:
-            doings[action.payload.index].isCompleted = action.payload.value;
-            return doings;
-
-        case UPDATE_ROW_DESCRIPTION:
-            doings[action.payload.index].description = action.payload.value;
-            return doings;
-        
-        case DELETE_COMPLETED_ROWS:
-            doings = doings.filter(d => !d.isCompleted);
-            return doings;
-        
-        case TOGGLE_ROWS_STATUS:
-            doings.forEach(s => s.isCompleted = action.payload);
-            return doings;
-
+        case SET_LOCAL_STORAGE_REQUEST:
+            return {
+                ...state,
+                isLoading: true
+            }
+        case SET_LOCAL_STORAGE_SUCCESS:
+            return {
+                isLoading: false,
+                data: action.payload,
+                error: ''
+            }
+        case SET_LOCAL_STORAGE_FAILURE:
+            return {
+                isLoading: false,
+                data: state.data.slice(),
+                error: action.payload
+            }
+        case GET_LOCAL_STORAGE_REQUEST:
+            return {
+                ...state,
+                isLoading: true
+            }
+        case GET_LOCAL_STORAGE_SUCCESS:
+            return {
+                isLoading: false,
+                data: action.payload,
+                error: ''
+            }
+        case GET_LOCAL_STORAGE_FAILURE:
+            return {
+                isLoading: false,
+                data: [],
+                error: action.payload
+            }
         default:
-            return doings;
+           return state
     }
 }
 

@@ -1,14 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
-import {updateRowDescription} from '../actions'
+import {setLocalStorage} from '../actions'
 import './DoingCard.scss';
+import { UPDATE_ROW_DESCRIPTION } from '../Utils/Constants';
 
 function DoingCard() {
 	const dispatch = useDispatch();
 	const { id } = useParams();
 	
-	const [doing, setDoing] = useState(useSelector(state => state.doings)[id])
+	const [doing, setDoing] = useState(useSelector(state => state.doings.data)[id])
 	const [isEdit, setIsEdit] = useState(false);
 	const inputRef = useRef(null); 
 
@@ -22,7 +23,7 @@ function DoingCard() {
 	}
 
 	const saveDescription = () => {
-		dispatch(updateRowDescription({index: id, value: doing.description}));
+		dispatch(setLocalStorage(UPDATE_ROW_DESCRIPTION, {index: id, value: doing.description}));
 		toggleEdit();
 	}
 

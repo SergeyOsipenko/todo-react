@@ -1,12 +1,19 @@
-import React, {Suspense, lazy} from 'react';
+import React, {Suspense, lazy, useEffect} from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import Loader from 'react-loader-spinner';
 import './App.scss';
+import { useDispatch } from 'react-redux';
+import { getLocalStorage } from '../actions';
 
 const Board = lazy(() => import('../Board/Board'));
 const DoingCard = lazy(() => import('../DoingCard/DoingCard'));
 
 function App() {
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(getLocalStorage())
+	});
 
 	return (
 		<div className="app">

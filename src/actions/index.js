@@ -1,54 +1,32 @@
-import {ADD_ROW, DELETE_ROW, UPDATE_ROW_STATUS, UPDATE_ROW_DESCRIPTION, DELETE_COMPLETED_ROWS, TOGGLE_ROWS_STATUS} from '../Utils/Constants'
+import {
+	SET_LOCAL_STORAGE_REQUEST,
+	SET_LOCAL_STORAGE_SUCCESS,
+	SET_LOCAL_STORAGE_FAILURE,
+	GET_LOCAL_STORAGE_REQUEST,
+	GET_LOCAL_STORAGE_SUCCESS,
+	GET_LOCAL_STORAGE_FAILURE
+} from '../Utils/Constants'
 
-export const addRow = (value) => {
+export const setLocalStorage = (type, data = null) => {
 	return {
 		localStorage: {
-			type: ADD_ROW,
-			payload: value
+			type: type,
+			payload: data,
+			request: SET_LOCAL_STORAGE_REQUEST,
+			success: SET_LOCAL_STORAGE_SUCCESS,
+			failure: SET_LOCAL_STORAGE_FAILURE,
+			timeStamp: Date.now()
 		}
 	}
 }
 
-export const deleteRow = (index) => {
+export const getLocalStorage = () => {
 	return {
 		localStorage: {
-			type: DELETE_ROW,
-			payload: index
-		}
-	}
-}
-
-export const updateRowStatus = (index, value) => {
-	return {
-		localStorage: {
-			type: UPDATE_ROW_STATUS,
-			payload: { index, value }
-		}
-	}
-}
-
-export const updateRowDescription = (value) => {
-	return {
-		localStorage: {
-			type: UPDATE_ROW_DESCRIPTION,
-			payload: value
-		}
-	}
-}
-
-export const toggleRows = (value) => {
-	return {
-		localStorage: {
-			type: TOGGLE_ROWS_STATUS,
-			payload: value
-		}
-	}
-}
-
-export const deleteCompletedRows = () => {
-	return {
-		localStorage: {
-			type: DELETE_COMPLETED_ROWS
+			request: GET_LOCAL_STORAGE_REQUEST,
+			success: GET_LOCAL_STORAGE_SUCCESS,
+			failure: GET_LOCAL_STORAGE_FAILURE,
+			timeStamp: Date.now()
 		}
 	}
 }

@@ -9,7 +9,7 @@ import mainReducer, {localMiddleWare} from './reducers'
 
 const store = createStore(
   mainReducer,
-  {doings: JSON.parse(localStorage.getItem('todo-react')) || []},
+  {},
   applyMiddleware(localMiddleWare)
 );
 
