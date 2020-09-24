@@ -39,22 +39,17 @@ export const localMiddleWare = (store) => (next) => (action) => {
 		}
 
 		asyncLocalStorage.setItem(TO_DO, doings)
-			.then(() => {
-				asyncLocalStorage.getItem(TO_DO).then(value => {
-					store.dispatch({type: success, payload: JSON.parse(value) || []});
-				});
-			})
-			.catch(error => {
-				store.dispatch({type: failure, payload: error});
-			});
+			.then(
+				() => asyncLocalStorage.getItem(TO_DO),
+				error => { store.dispatch({type: failure, payload: error}) }
+			)
+			.then(value => { store.dispatch({type: success, payload: JSON.parse(value) || []}); });
 	} else {
 		asyncLocalStorage.getItem(TO_DO)
-			.then(value => {
-				store.dispatch({type: success, payload: JSON.parse(value) || []});
-			})
-			.catch(error => {
-				store.dispatch({type: failure, payload: error});
-			});
+			.then(
+				value => { store.dispatch({type: success, payload: JSON.parse(value) || []}); },
+				error => { store.dispatch({type: failure, payload: error}); }
+			);
 	}
 };
 

@@ -55,7 +55,9 @@ function Board() {
 	const handelExtendedAddRow = useCallback(
 		(input) => {
 			dispatch(setLocalStorage(ADD_ROW, input.value));
-			history.push(`/Doing/${doings.length}`)
+			requestAnimationFrame(() => {
+				history.push(`/Doing/${doings.length}`);
+			});
 		},
 		[dispatch, history, doings]
 	);
