@@ -5,13 +5,13 @@ import Doing from '../Doing/Doing';
 import Footer from '../Footer/Footer';
 import {useSelector, useDispatch} from 'react-redux';
 import {setLocalStorage} from '../actions'
-import { useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { ADD_ROW, DELETE_COMPLETED_ROWS, DELETE_ROW, TOGGLE_ROWS_STATUS, UPDATE_ROW_STATUS } from '../Utils/Constants';
 
 function Board() {
 	const dispatch = useDispatch();
-	const history = useHistory();
 	const doings = useSelector(state => state.doings.data);
+	const redirectTo = useSelector(state => state.doings.redirectTo);
 	const [hasLetters, setHasLetters] = useState(false);
 
 	const [filterBy, setFilterBy] = useState("All");
@@ -54,12 +54,10 @@ function Board() {
 
 	const handelExtendedAddRow = useCallback(
 		(input) => {
-			dispatch(setLocalStorage(ADD_ROW, input.value));
-			requestAnimationFrame(() => {
-				history.push(`/Doing/${doings.length}`);
-			});
+			const url = `/Doing/${doings.length}`;
+			dispatch(setLocalStorage(ADD_ROW, input.value, url));
 		},
-		[dispatch, history, doings]
+		[dispatch, doings]
 	);
 
 	const handelEnterRowChange = useCallback(
@@ -82,6 +80,10 @@ function Board() {
 		},
 		[dispatch]
 	);
+
+	if(redirectTo){
+		return <Redirect to={redirectTo} />
+	}
 
 	return (
 		<div className="board">

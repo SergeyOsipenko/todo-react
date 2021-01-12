@@ -9,7 +9,7 @@ export const localMiddleWare = (store) => (next) => (action) => {
 		return;
 	}
 	
-	const {type, payload, request, success, failure} = {...action.localStorage};
+	const {type, payload, redirectTo, request, success, failure} = {...action.localStorage};
 
 	store.dispatch({type: request});
 	if(request === SET_LOCAL_STORAGE_REQUEST){
@@ -43,7 +43,9 @@ export const localMiddleWare = (store) => (next) => (action) => {
 				() => asyncLocalStorage.getItem(TO_DO),
 				error => { store.dispatch({type: failure, payload: error}) }
 			)
-			.then(value => { store.dispatch({type: success, payload: JSON.parse(value) || []}); });
+			.then(value => {
+				store.dispatch({type: success, payload: JSON.parse(value) || [], redirectTo});
+			});
 	} else {
 		asyncLocalStorage.getItem(TO_DO)
 			.then(
