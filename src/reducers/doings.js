@@ -11,8 +11,7 @@ const doingReducer = (state = initialState, action) => {
     switch(action.type){
         case SET_LOCAL_STORAGE_REQUEST:
             return {
-                ...state,
-                isLoading: true
+                ...state
             }
         case SET_LOCAL_STORAGE_SUCCESS:
             return {

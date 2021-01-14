@@ -40,12 +40,9 @@ export const localMiddleWare = (store) => (next) => (action) => {
 
 		asyncLocalStorage.setItem(TO_DO, doings)
 			.then(
-				() => asyncLocalStorage.getItem(TO_DO),
-				error => { store.dispatch({type: failure, payload: error}) }
-			)
-			.then(value => {
-				store.dispatch({type: success, payload: JSON.parse(value) || [], redirectTo});
-			});
+				() => store.dispatch({type: success, payload: doings, redirectTo}),
+				error => store.dispatch({type: failure, payload: error})
+			);
 	} else {
 		asyncLocalStorage.getItem(TO_DO)
 			.then(

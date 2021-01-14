@@ -4,12 +4,14 @@ import {useSelector, useDispatch} from 'react-redux';
 import {clearRedirectTo, setLocalStorage} from '../actions'
 import './DoingCard.scss';
 import { UPDATE_ROW_DESCRIPTION } from '../Utils/Constants';
+import Loader from 'react-loader-spinner';
 
 function DoingCard() {
 	const dispatch = useDispatch();
 	const { id } = useParams();
 	
 	const redirectTo = useSelector(state => state.doings.redirectTo);
+	const isLoading = useSelector(state => state.doings.isLoading);
 	const [doing, setDoing] = useState(useSelector(state => state.doings.data)[id])
 	const [isEdit, setIsEdit] = useState(false);
 	const inputRef = useRef(null); 
@@ -39,6 +41,15 @@ function DoingCard() {
 		copy.description = value;
 		setDoing(copy);
 	}
+
+	if(isLoading)
+	return (
+		<Loader
+			type="ThreeDots"
+			color="rgba(175, 47, 47, 0.5)"
+			height={100}
+			width={100}/>
+	);
 
 	return(doing !== undefined ? (
 			<div className="doing-card">

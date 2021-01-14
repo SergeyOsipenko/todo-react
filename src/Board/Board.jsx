@@ -7,11 +7,13 @@ import {useSelector, useDispatch} from 'react-redux';
 import {setLocalStorage} from '../actions'
 import { Redirect } from 'react-router-dom';
 import { ADD_ROW, DELETE_COMPLETED_ROWS, DELETE_ROW, TOGGLE_ROWS_STATUS, UPDATE_ROW_STATUS } from '../Utils/Constants';
+import Loader from 'react-loader-spinner';
 
 function Board() {
 	const dispatch = useDispatch();
 	const doings = useSelector(state => state.doings.data);
 	const redirectTo = useSelector(state => state.doings.redirectTo);
+	const isLoading = useSelector(context => context.doings.isLoading);
 	const [hasLetters, setHasLetters] = useState(false);
 
 	const [filterBy, setFilterBy] = useState("All");
@@ -84,6 +86,15 @@ function Board() {
 	if(redirectTo){
 		return <Redirect to={redirectTo} />
 	}
+
+	if(isLoading)
+		return (
+			<Loader
+				type="ThreeDots"
+				color="rgba(175, 47, 47, 0.5)"
+				height={100}
+				width={100}/>
+		);
 
 	return (
 		<div className="board">
